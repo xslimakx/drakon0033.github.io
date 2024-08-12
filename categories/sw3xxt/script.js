@@ -7,7 +7,6 @@ const servers = [
         imageUrl: "https://cdn.discordapp.com/attachments/1150879903860924546/1157118559986655325/image0.jpg?ex=66bb57e2&is=66ba0662&hm=cc1c1f9380d5fee5183ea7b20a80cc02832ef4d80583e60f07177fb4801abf28&",
         iconUrl: "https://media.discordapp.net/attachments/765647977032712224/824007482028458004/hapee.gif?ex=66bb1085&is=66b9bf05&hm=99ebd95565cb9c82b264eb8d6ba140d32204497c1c1163d4279e3b539df52192&="
     },
-    // Добавьте больше серверов по необходимости
 ];
 
 const cursorImages = [
@@ -156,8 +155,8 @@ function addFloatingEmojis() {
 
 function updateCursor() {
     const randomImage = cursorImages[Math.floor(Math.random() * cursorImages.length)];
-    const randomSize = Math.floor(Math.random() * (40 - 20 + 1)) + 20; // Размер от 20px до 40px
-    const randomRotation = Math.floor(Math.random() * 360); // Поворот от 0 до 359 градусов
+    const randomSize = Math.floor(Math.random() * (40 - 20 + 1)) + 20; 
+    const randomRotation = Math.floor(Math.random() * 360); 
 
     const cursorStyle = `
         url('${randomImage}') ${randomSize / 2} ${randomSize / 2},
@@ -169,11 +168,11 @@ function updateCursor() {
 }
 
 function startCursorAnimation() {
-    updateCursor(); // Обновляем курсор сразу
-    setInterval(updateCursor, 3000); // Обновляем курсор каждые 3 секунды
+    updateCursor(); 
+    setInterval(updateCursor, 3000); 
 }
 
-// Закрытие модального окна
+
 const modal = document.getElementById('serverModal');
 const span = document.getElementsByClassName("close")[0];
 span.onclick = closeModal;

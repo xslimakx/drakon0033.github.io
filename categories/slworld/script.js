@@ -7,7 +7,7 @@ const servers = [
         imageUrl: "https://cdn.discordapp.com/attachments/1269323708993114134/1272553329209376869/banerslwod.png?ex=66bb6524&is=66ba13a4&hm=115ab9cb18989b20f22b12bcb5efdf23943f26602aee79f825d9a6750a7429ba&",
         iconUrl: "https://cdn.discordapp.com/attachments/1259052471909617756/1272197191942934588/838587266740912178.png?ex=66bac236&is=66b970b6&hm=8a64d073485b49edb97adba8b259ecd02b784b77157f6214673182b35157316f&"
     },
-    // Добавьте больше серверов по необходимости
+    
 ];
 
 function setPageInfo() {
@@ -77,10 +77,10 @@ function toggleLightning() {
     lightnings.forEach(lightning => {
         lightning.style.opacity = lightning.style.opacity === '0.5' ? '0' : '0.5';
     });
-    setTimeout(toggleLightning, Math.random() * 5000 + 2000); // Случайный интервал от 2 до 7 секунд
+    setTimeout(toggleLightning, Math.random() * 5000 + 2000); 
 }
 
-// Закрытие модального окна
+
 const modal = document.getElementById('serverModal');
 const span = document.getElementsByClassName("close")[0];
 span.onclick = closeModal;
@@ -94,5 +94,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setPageInfo();
     displayServers();
     setLightningRotations();
-    toggleLightning(); // Запускаем анимацию молний
+    toggleLightning(); 
 });
