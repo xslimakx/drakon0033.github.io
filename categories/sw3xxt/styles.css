@@ -1,0 +1,171 @@
+body {
+    font-family: 'Comic Neue', cursive;
+    background-color: #FFD700;
+    color: #FF4500;
+    margin: 0;
+    padding: 0;
+    --cursor-rotation: 0deg;
+}
+
+body * {
+    cursor: inherit;
+}
+
+body *:hover {
+    transform: rotate(var(--cursor-rotation));
+    transition: transform 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow {
+    0% { color: red; }
+    14% { color: orange; }
+    28% { color: yellow; }
+    42% { color: green; }
+    57% { color: blue; }
+    71% { color: indigo; }
+    85% { color: violet; }
+    100% { color: red; }
+}
+
+.back-button {
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.back-button:hover {
+    background-color: #FF1493;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.server-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.server {
+    background-color: #98FB98;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    width: 300px;
+    transform: rotate(-3deg);
+}
+
+.server:hover {
+    transform: scale(1.05) rotate(3deg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.server-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 5px solid #FF69B4;
+}
+
+.server-info {
+    padding: 20px;
+}
+
+.server-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #FF4500;
+}
+
+.server p {
+    font-size: 16px;
+    color: #4B0082;
+}
+
+.details-button {
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.details-button:hover {
+    background-color: #FF1493;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(255, 192, 203, 0.8);
+}
+
+.modal-content {
+    background-color: #98FB98;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: rotate(-2deg);
+}
+
+.close {
+    color: #FF4500;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #FF1493;
+    transform: scale(1.2) rotate(180deg);
+    transition: all 0.3s ease;
+}
+
+.join-button {
+    display: inline-block;
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.join-button:hover {
+    background-color: #FF1493;
+    transform: scale(1.1) rotate(5deg);
+}

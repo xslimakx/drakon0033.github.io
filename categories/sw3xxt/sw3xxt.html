@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="" id="favicon">
+    <title id="pageTitle">SW3XXT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="confetti"></div>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1 id="headerTitle">🤪 SW3XXT</h1>
+            </div>
+            <a href="../../index.html" class="back-button">Назад, но не грусти!</a>
+        </header>
+        <div class="server-list" id="server-list">
+            <!-- Сервера будут добавляться сюда динамически -->
+        </div>
+    </div>
+    <div id="serverModal" class="modal">
+        <div class="modal-content">
+            <span class="close">🙅‍♂️</span>
+            <img id="modalServerImage" class="modal-image" src="" alt="">
+            <h2 id="modalServerName"></h2>
+            <p id="modalServerDescription"></p>
+            <a id="modalJoinButton" class="join-button" href="#" target="_blank">Присоединяйся, будет весело!</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="../../script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
