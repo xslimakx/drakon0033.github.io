@@ -1,19 +1,10 @@
 body {
     font-family: 'Comic Neue', cursive;
-    background-color: #FFD700;
-    color: #FF4500;
+    background-color: #121212;
+    color: #e0e0e0;
     margin: 0;
     padding: 0;
-    --cursor-rotation: 0deg;
-}
-
-body * {
-    cursor: inherit;
-}
-
-body *:hover {
-    transform: rotate(var(--cursor-rotation));
-    transition: transform 0.3s ease;
+    cursor: none; /* Скрываем стандартный курсор */
 }
 
 .container {
@@ -25,23 +16,11 @@ body *:hover {
 header {
     text-align: center;
     margin-bottom: 40px;
-    animation: rainbow 5s linear infinite;
-}
-
-@keyframes rainbow {
-    0% { color: red; }
-    14% { color: orange; }
-    28% { color: yellow; }
-    42% { color: green; }
-    57% { color: blue; }
-    71% { color: indigo; }
-    85% { color: violet; }
-    100% { color: red; }
 }
 
 .back-button {
-    background-color: #FF69B4;
-    color: white;
+    background-color: #333333;
+    color: #e0e0e0;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 25px;
@@ -51,8 +30,8 @@ header {
 }
 
 .back-button:hover {
-    background-color: #FF1493;
-    transform: scale(1.1) rotate(5deg);
+    background-color: #444444;
+    transform: scale(1.05);
 }
 
 .server-list {
@@ -63,25 +42,24 @@ header {
 }
 
 .server {
-    background-color: #98FB98;
+    background-color: #1e1e1e;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     width: 300px;
-    transform: rotate(-3deg);
 }
 
 .server:hover {
-    transform: scale(1.05) rotate(3deg);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .server-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-bottom: 5px solid #FF69B4;
+    border-bottom: 5px solid #333333;
 }
 
 .server-info {
@@ -91,17 +69,17 @@ header {
 .server-title {
     font-size: 24px;
     margin-bottom: 10px;
-    color: #FF4500;
+    color: #ffffff;
 }
 
 .server p {
     font-size: 16px;
-    color: #4B0082;
+    color: #b0b0b0;
 }
 
 .details-button {
-    background-color: #FF69B4;
-    color: white;
+    background-color: #333333;
+    color: #e0e0e0;
     border: none;
     padding: 10px 15px;
     border-radius: 25px;
@@ -112,8 +90,8 @@ header {
 }
 
 .details-button:hover {
-    background-color: #FF1493;
-    transform: scale(1.1) rotate(5deg);
+    background-color: #444444;
+    transform: scale(1.05);
 }
 
 .modal {
@@ -125,38 +103,60 @@ header {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(255, 192, 203, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
 }
 
 .modal-content {
-    background-color: #98FB98;
+    background-color: #1e1e1e;
     margin: 15% auto;
     padding: 20px;
     border-radius: 15px;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: rotate(-2deg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
 }
 
 .close {
-    color: #FF4500;
+    color: #e0e0e0;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .close:hover {
-    color: #FF1493;
-    transform: scale(1.2) rotate(180deg);
-    transition: all 0.3s ease;
+    color: #ffffff;
+}
+
+.close.animated {
+    animation: shake 0.5s ease infinite;
 }
 
 .join-button {
     display: inline-block;
-    background-color: #FF69B4;
-    color: white;
+    background-color: #333333;
+    color: #e0e0e0;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 25px;
@@ -166,6 +166,53 @@ header {
 }
 
 .join-button:hover {
-    background-color: #FF1493;
-    transform: scale(1.1) rotate(5deg);
+    background-color: #444444;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.server {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.details-button:hover, .join-button:hover {
+    animation: pulse 1s infinite;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: float 10s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+    }
+}
+
+.custom-cursor {
+    width: 32px; /* Измените размер по необходимости */
+    height: 32px; /* Измените размер по необходимости */
+    background-image: url('https://cdn-icons-png.flaticon.com/512/9953/9953829.png'); /* Замените на URL вашего изображения */
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
 }

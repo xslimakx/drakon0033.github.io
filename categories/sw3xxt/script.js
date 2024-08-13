@@ -9,24 +9,16 @@ const servers = [
     },
 ];
 
-const cursorImages = [
-    'https://static-00.iconduck.com/assets.00/penis-emoji-2048x2004-mcysxmme.png',
-    'https://cdn-icons-png.flaticon.com/512/9352/9352702.png',
-    'https://cdn-icons-png.flaticon.com/512/9953/9953831.png',
-    'https://cdn-icons-png.flaticon.com/512/9953/9953832.png',
-    'https://cdn-icons-png.flaticon.com/512/9953/9953833.png'
-];
-
 function setPageInfo() {
     const sw3xxtCategory = categories.find(category => category.folder === 'sw3xxt');
     if (sw3xxtCategory) {
         document.getElementById('favicon').href = sw3xxtCategory.iconUrl;
-        document.getElementById('pageTitle').textContent = "Смешной " + sw3xxtCategory.name;
+        document.getElementById('pageTitle').textContent = sw3xxtCategory.name;
         
         const headerTitle = document.getElementById('headerTitle');
         headerTitle.innerHTML = `
             <img src="${sw3xxtCategory.iconUrl}" alt="${sw3xxtCategory.name} Icon" class="header-icon">
-            🤪 ${sw3xxtCategory.name} Веселуха 🎉
+            ${sw3xxtCategory.name}
         `;
     }
 }
@@ -62,14 +54,33 @@ function openModal(serverIndex) {
     setTimeout(() => {
         modal.classList.add('show');
     }, 10);
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
+}
+
+function setupModalClose() {
+    const closeButton = document.querySelector('.close');
+    const modal = document.getElementById('serverModal');
+
+    closeButton.addEventListener('click', closeModal);
+    
+    closeButton.addEventListener('mouseenter', startEmojiAnimation);
+    closeButton.addEventListener('mouseleave', stopEmojiAnimation);
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
     });
 }
 
-function closeModal() {
+function startEmojiAnimation() {
+    this.classList.add('animated');
+}
+
+function stopEmojiAnimation() {
+    this.classList.remove('animated');
+}
+
+window.closeModal = function() {
     const modal = document.getElementById('serverModal');
     modal.classList.remove('show');
     setTimeout(() => {
@@ -77,116 +88,44 @@ function closeModal() {
     }, 300);
 }
 
-function initConfetti() {
-    const duration = 15 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-    function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-    }
-
-    const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-            return clearInterval(interval);
-        }
-
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-    }, 250);
-}
-
-function addShakeEffect() {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
-        }
-    `;
-    document.head.appendChild(style);
-
-    document.body.addEventListener('mouseover', function(event) {
-        if (event.target.classList.contains('server') || 
-            event.target.classList.contains('details-button') || 
-            event.target.classList.contains('join-button')) {
-            event.target.style.animation = 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both';
-            event.target.addEventListener('animationend', () => {
-                event.target.style.animation = '';
-            });
-        }
-    });
-}
-
 function addFloatingEmojis() {
-    const emojis = ['🍕', '🎉', '😂', '🚀', '💖', '🌈', '🦄', '🍦'];
+    const emojis = ['😂', '🤣', '😅', '😆', '😁', '😄', '😃', '😀', '😊', '😉'];
     const container = document.querySelector('.container');
 
-    setInterval(() => {
+    for (let i = 0; i < 20; i++) {
         const emoji = document.createElement('div');
+        emoji.className = 'floating-emoji';
         emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.position = 'absolute';
         emoji.style.left = `${Math.random() * 100}%`;
-        emoji.style.top = '-20px';
-        emoji.style.fontSize = '20px';
-        emoji.style.animation = `float 5s linear`;
+        emoji.style.animationDuration = `${Math.random() * 10 + 5}s`;
+        emoji.style.animationDelay = `${Math.random() * 5}s`;
         container.appendChild(emoji);
-
-        setTimeout(() => {
-            container.removeChild(emoji);
-        }, 5000);
-    }, 1000);
-
-    const floatKeyframes = `
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-    `;
-    const style = document.createElement('style');
-    style.textContent = floatKeyframes;
-    document.head.appendChild(style);
-}
-
-function updateCursor() {
-    const randomImage = cursorImages[Math.floor(Math.random() * cursorImages.length)];
-    const randomSize = Math.floor(Math.random() * (40 - 20 + 1)) + 20; 
-    const randomRotation = Math.floor(Math.random() * 360); 
-
-    const cursorStyle = `
-        url('${randomImage}') ${randomSize / 2} ${randomSize / 2},
-        auto
-    `;
-
-    document.body.style.cursor = cursorStyle;
-    document.body.style.setProperty('--cursor-rotation', `${randomRotation}deg`);
+    }
 }
 
 function startCursorAnimation() {
-    updateCursor(); 
-    setInterval(updateCursor, 3000); 
-}
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
 
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+    });
 
-const modal = document.getElementById('serverModal');
-const span = document.getElementsByClassName("close")[0];
-span.onclick = closeModal;
-window.onclick = function(event) {
-    if (event.target == modal) {
-        closeModal();
-    }
+    document.addEventListener('mouseout', () => {
+        cursor.style.display = 'none';
+    });
+
+    document.addEventListener('mouseover', () => {
+        cursor.style.display = 'block';
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     setPageInfo();
     displayServers();
-    initConfetti();
-    addShakeEffect();
     addFloatingEmojis();
     startCursorAnimation();
+    setupModalClose();
 });
