@@ -2,8 +2,8 @@ const categories = [
     {
         name: "SL〡World🍀",
         folder: "slworld",
-        imageUrl: "https://cdn.discordapp.com/attachments/1269323708993114134/1272559583407374406/overworld.png?ex=66bb6af7&is=66ba1977&hm=a5e7194a86a572807450b55a75a4c249f469dbd263d1bbee7b07550524d6fb8a&",
-        iconUrl: "https://cdn.discordapp.com/attachments/1269323708993114134/1272559631066992671/sl512.png?ex=66bb6b03&is=66ba1983&hm=fff9d6db44d3de3fa2f7fcd878732edcae9431b192885d938a0db4f087f54fa7&",
+        imageUrl: "https://cdn.discordapp.com/attachments/1269323708993114134/1272559583407374406/overworld.png",
+        iconUrl: "https://cdn.discordapp.com/attachments/1269323708993114134/1272559631066992671/sl512.png",
         shortDescription: "Мир SL: Ванильный майнкрафт с дополнениями"
     },
     {
