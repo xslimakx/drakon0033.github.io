@@ -1,5 +1,6 @@
 const solanaWeb3 = window.solanaWeb3;
 const splToken = window.splToken;
+const mplTokenMetadata = window.mplTokenMetadata;
 
 let connection;
 let wallet;
@@ -61,11 +62,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         const tokenSymbol = document.getElementById('token-symbol').value;
         const totalSupply = document.getElementById('total-supply').value;
         const tokenIcon = document.getElementById('token-icon').value;
+        const metadataUri = document.getElementById('metadata-uri').value;
         const revokeMintAuthority = document.getElementById('revoke-mint-authority').checked;
         const revokeFreezeAuthority = document.getElementById('revoke-freeze-authority').checked;
+        const revokeMetadataAuthority = document.getElementById('revoke-metadata-authority').checked;
 
         try {
-            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, revokeMintAuthority, revokeFreezeAuthority);
+            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, metadataUri, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority);
             alert(`Токен успешно создан! Адрес токена: ${result}`);
             form.reset();
             displayMyTokens();
@@ -89,35 +92,19 @@ async function connectWallet(walletType) {
     let provider;
 
     switch (walletType) {
-        case 'metamask':
-            if (typeof window.ethereum !== 'undefined') {
-                provider = window.ethereum;
+        case 'phantom':
+            if (window.solana && window.solana.isPhantom) {
+                provider = window.solana;
             } else {
-                alert('Пожалуйста, установите MetaMask');
-                return;
-            }
-            break;
-        case 'okx':
-            if (typeof window.okxwallet !== 'undefined') {
-                provider = window.okxwallet;
-            } else {
-                alert('Пожалуйста, установите OKX Wallet');
+                alert('Пожалуйста, установите Phantom');
                 return;
             }
             break;
         case 'solflare':
-            if (typeof window.solflare !== 'undefined') {
+            if (window.solflare) {
                 provider = window.solflare;
             } else {
                 alert('Пожалуйста, установите Solflare');
-                return;
-            }
-            break;
-        case 'phantom':
-            if (typeof window.solana !== 'undefined') {
-                provider = window.solana;
-            } else {
-                alert('Пожалуйста, установите Phantom');
                 return;
             }
             break;
@@ -138,7 +125,7 @@ async function connectWallet(walletType) {
     }
 }
 
-async function createSolanaToken(name, symbol, totalSupply, iconUrl, revokeMintAuthority, revokeFreezeAuthority) {
+async function createSolanaToken(name, symbol, totalSupply, iconUrl, metadataUri, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority) {
     if (!wallet) {
         throw new Error('Кошелек не подключен');
     }
@@ -181,12 +168,37 @@ async function createSolanaToken(name, symbol, totalSupply, iconUrl, revokeMintA
             console.log('Mint authority revoked');
         }
 
+        // Создаем метаданные токена
+        const metadataPDA = await mplTokenMetadata.Metadata.getPDA(mintAccount.publicKey);
+        const metadataTx = new mplTokenMetadata.CreateMetadataV2(
+            { feePayer: wallet.publicKey },
+            {
+                metadata: metadataPDA,
+                metadataData: new mplTokenMetadata.DataV2({
+                    name: name,
+                    symbol: symbol,
+                    uri: metadataUri,
+                    sellerFeeBasisPoints: 0,
+                    creators: [{ address: wallet.publicKey, verified: true, share: 100 }],
+                    collection: null,
+                    uses: null
+                }),
+                updateAuthority: revokeMetadataAuthority ? null : wallet.publicKey,
+                mint: mintAccount.publicKey,
+                mintAuthority: wallet.publicKey
+            }
+        );
+
+        const metadataTxId = await solanaWeb3.sendAndConfirmTransaction(connection, metadataTx, [wallet]);
+        console.log('Metadata created:', metadataTxId);
+
         // Сохраняем информацию о токене
         const tokenInfo = { 
             name, 
             symbol, 
             address: mintAccount.publicKey.toString(), 
-            icon: iconUrl 
+            icon: iconUrl,
+            creator: 's3xcommunity'
         };
         let myTokens = JSON.parse(localStorage.getItem('myTokens')) || [];
         myTokens.push(tokenInfo);
@@ -210,6 +222,7 @@ function displayMyTokens() {
         tokenCard.innerHTML = `
             <h3>${token.name} (${token.symbol})</h3>
             <p>Адрес: ${token.address}</p>
+            <p>Создатель: ${token.creator}</p>
             ${token.icon ? `<img src="${token.icon}" alt="${token.name} icon" style="width: 50px; height: 50px;">` : ''}
         `;
         tokenList.appendChild(tokenCard);
@@ -227,6 +240,7 @@ function updateTokenPreview() {
         <div>
             <h4>${name || 'Название токена'}</h4>
             <p>${symbol || 'СИМВОЛ'}</p>
+            <p>Создатель: s3xcommunity</p>
         </div>
     `;
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="cryptocrsswt.css">
     <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@metaplex-foundation/mpl-token-metadata@latest/dist/index.iife.js"></script>
 </head>
 <body>
     <div class="container">
@@ -44,13 +45,21 @@
                         <label for="token-icon">Иконка токена (URL):</label>
                         <input type="url" id="token-icon">
                     </div>
+                    <div class="form-group">
+                        <label for="metadata-uri">URI метаданных:</label>
+                        <input type="url" id="metadata-uri">
+                    </div>
                     <div class="form-group checkbox">
-                        <input type="checkbox" id="revoke-mint-authority">
+                        <input type="checkbox" id="revoke-mint-authority" checked>
                         <label for="revoke-mint-authority">Отказаться от Mint Authority</label>
                     </div>
                     <div class="form-group checkbox">
-                        <input type="checkbox" id="revoke-freeze-authority">
+                        <input type="checkbox" id="revoke-freeze-authority" checked>
                         <label for="revoke-freeze-authority">Отказаться от Freeze Authority</label>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="revoke-metadata-authority" checked>
+                        <label for="revoke-metadata-authority">Отказаться от доступа к изменению метаданных</label>
                     </div>
                     <div id="token-preview" class="token-preview">
                         <h3>Предпросмотр токена</h3>
@@ -69,21 +78,13 @@
         <div class="modal-content">
             <h2>Выберите кошелек</h2>
             <div class="wallet-options">
-                <button class="wallet-option" data-wallet="metamask">
-                    <img src="https://metamask.io/images/metamask-fox.svg" alt="MetaMask">
-                    MetaMask
-                </button>
-                <button class="wallet-option" data-wallet="okx">
-                    <img src="https://static.okx.com/cdn/assets/imgs/221/C66920FB4F41BBF4.png" alt="OKX">
-                    OKX
+                <button class="wallet-option" data-wallet="phantom">
+                    <img src="https://phantom.app/img/logo.png" alt="Phantom">
+                    Phantom
                 </button>
                 <button class="wallet-option" data-wallet="solflare">
                     <img src="https://solflare.com/assets/logo.svg" alt="Solflare">
                     Solflare
-                </button>
-                <button class="wallet-option" data-wallet="phantom">
-                    <img src="https://phantom.app/img/logo.png" alt="Phantom">
-                    Phantom
                 </button>
             </div>
         </div>
