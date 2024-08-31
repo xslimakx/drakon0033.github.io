@@ -7,19 +7,19 @@ const categories = [
         shortDescription: "Мир SL: Ванильный майнкрафт с дополнениями"
     },
     {
-        name: "CryptocrSSWT",
-        folder: "cryptocrsswt",
-        imageUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=", // Замените на реальный URL изображения
-        iconUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=", // Замените на реальный URL иконки
-        shortDescription: "Создание и управление токенами Solana"
-    },
-    {
         name: "SW3XXT",
         folder: "sw3xxt",
         imageUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=",
         iconUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=",
         shortDescription: "Проекты SW3XXT: Инновации и творчество"
     },
+    {
+        name: "CryptocrSSWT",
+        folder: "cryptocrsswt",
+        imageUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=", // Замените на реальный URL изображения
+        iconUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=", // Замените на реальный URL иконки
+        shortDescription: "Создание и управление токенами Solana"
+    },  
 ];
 
 function displayCategories() {

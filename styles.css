@@ -19,12 +19,13 @@ header {
 
 .categories {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
+    gap: 20px; /* Add gap between categories */
 }
 
 .category {
-    width: 45%;
+    width: calc(33.333% - 20px); /* Adjust width for 3 columns with gap */
     margin-bottom: 40px;
     position: relative;
     overflow: hidden;
@@ -71,6 +72,7 @@ header {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     display: flex;
     align-items: center;
+    font-size: 1.5em; /* Adjust font size */
 }
 
 .category-description {
@@ -88,7 +90,7 @@ header {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px; /* Slightly reduce font size */
     font-weight: bold;
     cursor: pointer;
     border-radius: 25px;
@@ -103,8 +105,21 @@ header {
 }
 
 .header-icon, .category-icon {
-    width: 40px;
-    height: 40px;
+    width: 30px; /* Reduce icon size */
+    height: 30px;
     vertical-align: middle;
     margin-right: 10px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .category {
+        width: calc(50% - 20px); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .category {
+        width: 100%; /* 1 column on very small screens */
+    }
 }
