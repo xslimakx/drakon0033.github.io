@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CryptocrSSWT - Создание токена Solana</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="cryptocrsswt.css">
     <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.min.js"></script>
@@ -13,50 +12,81 @@
 <body>
     <div class="container">
         <header>
-            <h1>CryptocrSSWT - Solana Token Creator</h1>
+            <h1>CryptocrSSWT</h1>
+            <nav>
+                <a href="#" class="active">Главная</a>
+                <a href="#">Создать токен</a>
+                <a href="#">Мои токены</a>
+            </nav>
+            <button id="connect-wallet" class="connect-button">Подключить кошелек</button>
         </header>
         <main>
-            <div id="wallet-buttons">
-                <button id="connect-phantom" class="wallet-button">Подключить Phantom</button>
-                <button id="connect-solflare" class="wallet-button">Подключить Solflare</button>
-                <button id="connect-okx" class="wallet-button">Подключить OKX</button>
-                <button id="connect-metamask" class="wallet-button">Подключить MetaMask</button>
-            </div>
-            <div id="connected-wallet"></div>
-            <form id="token-creation-form" style="display: none;">
-                <h2>Создание токена Solana</h2>
-                
-                <label for="token-name">Название токена:</label>
-                <input type="text" id="token-name" required>
-
-                <label for="token-symbol">Символ токена:</label>
-                <input type="text" id="token-symbol" required>
-
-                <label for="total-supply">Общее количество токенов:</label>
-                <input type="number" id="total-supply" required>
-
-                <label for="token-icon">Иконка токена (URL):</label>
-                <input type="url" id="token-icon">
-
-                <div>
-                    <input type="checkbox" id="revoke-mint-authority">
-                    <label for="revoke-mint-authority">Отказаться от Mint Authority</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="revoke-freeze-authority">
-                    <label for="revoke-freeze-authority">Отказаться от Freeze Authority</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="revoke-metadata-authority">
-                    <label for="revoke-metadata-authority">Отказаться от права изменять метаданные</label>
-                </div>
-
-                <button type="submit">Создать токен</button>
-            </form>
-            <div id="result"></div>
+            <section id="welcome" class="welcome-section">
+                <h2>Добро пожаловать в CryptocrSSWT</h2>
+                <p>Создавайте и управляйте своими токенами Solana легко и быстро.</p>
+            </section>
+            <section id="create-token" class="create-token-section" style="display: none;">
+                <h2>Создать новый токен</h2>
+                <form id="token-creation-form">
+                    <div class="form-group">
+                        <label for="token-name">Название токена:</label>
+                        <input type="text" id="token-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="token-symbol">Символ токена:</label>
+                        <input type="text" id="token-symbol" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-supply">Общее количество токенов:</label>
+                        <input type="number" id="total-supply" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="token-icon">Иконка токена (URL):</label>
+                        <input type="url" id="token-icon">
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="revoke-mint-authority">
+                        <label for="revoke-mint-authority">Отказаться от Mint Authority</label>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="revoke-freeze-authority">
+                        <label for="revoke-freeze-authority">Отказаться от Freeze Authority</label>
+                    </div>
+                    <div id="token-preview" class="token-preview">
+                        <h3>Предпросмотр токена</h3>
+                        <div class="preview-content"></div>
+                    </div>
+                    <button type="submit" class="create-button">Создать токен</button>
+                </form>
+            </section>
+            <section id="my-tokens" class="my-tokens-section" style="display: none;">
+                <h2>Мои токены</h2>
+                <div id="token-list"></div>
+            </section>
         </main>
+    </div>
+    <div id="wallet-modal" class="modal">
+        <div class="modal-content">
+            <h2>Выберите кошелек</h2>
+            <div class="wallet-options">
+                <button class="wallet-option" data-wallet="metamask">
+                    <img src="https://metamask.io/images/metamask-fox.svg" alt="MetaMask">
+                    MetaMask
+                </button>
+                <button class="wallet-option" data-wallet="okx">
+                    <img src="https://static.okx.com/cdn/assets/imgs/221/C66920FB4F41BBF4.png" alt="OKX">
+                    OKX
+                </button>
+                <button class="wallet-option" data-wallet="solflare">
+                    <img src="https://solflare.com/assets/logo.svg" alt="Solflare">
+                    Solflare
+                </button>
+                <button class="wallet-option" data-wallet="phantom">
+                    <img src="https://phantom.app/img/logo.png" alt="Phantom">
+                    Phantom
+                </button>
+            </div>
+        </div>
     </div>
     <script src="cryptocrsswt.js"></script>
 </body>

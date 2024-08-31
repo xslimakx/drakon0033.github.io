@@ -1,23 +1,57 @@
+const solanaWeb3 = window.solanaWeb3;
+const splToken = window.splToken;
+
 let connection;
 let wallet;
 
 document.addEventListener('DOMContentLoaded', async function() {
+    const connectButton = document.getElementById('connect-wallet');
+    const createTokenSection = document.getElementById('create-token');
+    const myTokensSection = document.getElementById('my-tokens');
+    const welcomeSection = document.getElementById('welcome');
     const form = document.getElementById('token-creation-form');
-    const resultDiv = document.getElementById('result');
-    const connectedWalletDiv = document.getElementById('connected-wallet');
+    const navLinks = document.querySelectorAll('nav a');
+    const modal = document.getElementById('wallet-modal');
+    const walletOptions = document.querySelectorAll('.wallet-option');
 
     // Инициализация подключения к Solana devnet
     connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
 
-    // Обработчики для кнопок подключения кошельков
-    document.getElementById('connect-phantom').addEventListener('click', () => connectWallet('phantom'));
-    document.getElementById('connect-solflare').addEventListener('click', () => connectWallet('solflare'));
-    document.getElementById('connect-okx').addEventListener('click', () => connectWallet('okx'));
-    document.getElementById('connect-metamask').addEventListener('click', () => connectWallet('metamask'));
+    connectButton.addEventListener('click', showWalletModal);
+
+    walletOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const walletType = option.getAttribute('data-wallet');
+            connectWallet(walletType);
+            modal.style.display = 'none';
+        });
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            const target = link.textContent;
+            if (target === 'Главная') {
+                welcomeSection.style.display = 'block';
+                createTokenSection.style.display = 'none';
+                myTokensSection.style.display = 'none';
+            } else if (target === 'Создать токен') {
+                welcomeSection.style.display = 'none';
+                createTokenSection.style.display = 'block';
+                myTokensSection.style.display = 'none';
+            } else if (target === 'Мои токены') {
+                welcomeSection.style.display = 'none';
+                createTokenSection.style.display = 'none';
+                myTokensSection.style.display = 'block';
+                displayMyTokens();
+            }
+        });
+    });
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         if (!wallet) {
             alert('Пожалуйста, подключите кошелек перед созданием токена.');
             return;
@@ -29,93 +63,178 @@ document.addEventListener('DOMContentLoaded', async function() {
         const tokenIcon = document.getElementById('token-icon').value;
         const revokeMintAuthority = document.getElementById('revoke-mint-authority').checked;
         const revokeFreezeAuthority = document.getElementById('revoke-freeze-authority').checked;
-        const revokeMetadataAuthority = document.getElementById('revoke-metadata-authority').checked;
 
         try {
-            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority);
-            resultDiv.innerHTML = `<p>Токен успешно создан!</p><p>Адрес токена: ${result}</p>`;
+            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, revokeMintAuthority, revokeFreezeAuthority);
+            alert(`Токен успешно создан! Адрес токена: ${result}`);
+            form.reset();
+            displayMyTokens();
         } catch (error) {
-            resultDiv.innerHTML = `<p>Ошибка: ${error.message}</p>`;
+            alert(`Ошибка при создании токена: ${error.message}`);
         }
     });
+
+    // Добавляем обработчики событий для предпросмотра токена
+    document.getElementById('token-name').addEventListener('input', updateTokenPreview);
+    document.getElementById('token-symbol').addEventListener('input', updateTokenPreview);
+    document.getElementById('token-icon').addEventListener('input', updateTokenPreview);
 });
 
-async function connectWallet(walletName) {
+function showWalletModal() {
+    const modal = document.getElementById('wallet-modal');
+    modal.style.display = 'block';
+}
+
+async function connectWallet(walletType) {
     let provider;
 
-    switch(walletName) {
-        case 'phantom':
-            provider = window.solana;
-            break;
-        case 'solflare':
-            provider = window.solflare;
+    switch (walletType) {
+        case 'metamask':
+            if (typeof window.ethereum !== 'undefined') {
+                provider = window.ethereum;
+            } else {
+                alert('Пожалуйста, установите MetaMask');
+                return;
+            }
             break;
         case 'okx':
-            provider = window.okxwallet;
+            if (typeof window.okxwallet !== 'undefined') {
+                provider = window.okxwallet;
+            } else {
+                alert('Пожалуйста, установите OKX Wallet');
+                return;
+            }
             break;
-        case 'metamask':
-            provider = window.ethereum;
+        case 'solflare':
+            if (typeof window.solflare !== 'undefined') {
+                provider = window.solflare;
+            } else {
+                alert('Пожалуйста, установите Solflare');
+                return;
+            }
+            break;
+        case 'phantom':
+            if (typeof window.solana !== 'undefined') {
+                provider = window.solana;
+            } else {
+                alert('Пожалуйста, установите Phantom');
+                return;
+            }
             break;
         default:
-            alert('Неизвестный тип кошелька');
+            alert('Неподдерживаемый тип кошелька');
             return;
     }
 
-    if (!provider) {
-        alert(`${walletName.charAt(0).toUpperCase() + walletName.slice(1)} кошелек не установлен!`);
-        return;
-    }
-
     try {
-        if (walletName === 'metamask') {
-            await provider.request({ method: 'eth_requestAccounts' });
-            const accounts = await provider.request({ method: 'eth_accounts' });
-            wallet = accounts[0];
-        } else {
-            await provider.connect();
-            wallet = provider;
-        }
-
-        document.getElementById('connected-wallet').innerText = `Подключен кошелек: ${wallet.publicKey || wallet}`;
-        document.getElementById('token-creation-form').style.display = 'block';
+        await provider.connect();
+        wallet = new solanaWeb3.Wallet(provider);
+        console.log('Wallet connected:', wallet.publicKey.toString());
+        document.getElementById('connect-wallet').textContent = 'Кошелек подключен';
+        document.getElementById('connect-wallet').disabled = true;
     } catch (err) {
-        console.error(err);
+        console.error('Error connecting to wallet:', err);
         alert('Ошибка при подключении кошелька');
     }
 }
 
-async function createSolanaToken(name, symbol, totalSupply, iconUrl, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority) {
-    // Создание минта
-    const mint = await splToken.Token.createMint(
-        connection,
-        wallet,
-        wallet.publicKey,
-        revokeFreezeAuthority ? null : wallet.publicKey,
-        9, // 9 десятичных знаков
-        splToken.TOKEN_PROGRAM_ID
-    );
-
-    // Создание ассоциированного токен-аккаунта для владельца
-    const tokenAccount = await mint.getOrCreateAssociatedAccountInfo(wallet.publicKey);
-
-    // Минтинг токенов
-    await mint.mintTo(tokenAccount.address, wallet.publicKey, [], totalSupply);
-
-    // Установка метаданных токена
-    // Примечание: это упрощенная версия, в реальности вам нужно будет использовать Metaplex для установки метаданных
-    console.log('Метаданные токена:', { name, symbol, uri: iconUrl });
-
-    // Отзыв прав на минтинг, если выбрано
-    if (revokeMintAuthority) {
-        await mint.setAuthority(mint.publicKey, null, 'MintTokens', wallet.publicKey, []);
+async function createSolanaToken(name, symbol, totalSupply, iconUrl, revokeMintAuthority, revokeFreezeAuthority) {
+    if (!wallet) {
+        throw new Error('Кошелек не подключен');
     }
 
-    // Отзыв прав на изменение метаданных, если выбрано
-    if (revokeMetadataAuthority) {
-        // Здесь должен быть код для отзыва прав на изменение метаданных
-        // Это требует использования Metaplex, который не включен в этот пример
-        console.log('Отзыв прав на изменение метаданных');
-    }
+    try {
+        // Создаем минт (новый токен)
+        const mintAccount = await splToken.Token.createMint(
+            connection,
+            wallet,
+            wallet.publicKey,
+            revokeFreezeAuthority ? null : wallet.publicKey,
+            9, // 9 десятичных знаков
+            splToken.TOKEN_PROGRAM_ID
+        );
 
-    return mint.publicKey.toString();
+        console.log('Mint account created:', mintAccount.publicKey.toString());
+
+        // Создаем аккаунт токена для владельца
+        const tokenAccount = await mintAccount.createAccount(wallet.publicKey);
+        console.log('Token account created:', tokenAccount.toString());
+
+        // Минтим токены
+        await mintAccount.mintTo(
+            tokenAccount,
+            wallet.publicKey,
+            [],
+            totalSupply * 1e9 // Умножаем на 1e9 из-за 9 десятичных знаков
+        );
+
+        console.log('Tokens minted');
+
+        if (revokeMintAuthority) {
+            await mintAccount.setAuthority(
+                mintAccount.publicKey,
+                null,
+                'MintTokens',
+                wallet.publicKey,
+                []
+            );
+            console.log('Mint authority revoked');
+        }
+
+        // Сохраняем информацию о токене
+        const tokenInfo = { 
+            name, 
+            symbol, 
+            address: mintAccount.publicKey.toString(), 
+            icon: iconUrl 
+        };
+        let myTokens = JSON.parse(localStorage.getItem('myTokens')) || [];
+        myTokens.push(tokenInfo);
+        localStorage.setItem('myTokens', JSON.stringify(myTokens));
+
+        return mintAccount.publicKey.toString();
+    } catch (error) {
+        console.error('Error creating token:', error);
+        throw error;
+    }
+}
+
+function displayMyTokens() {
+    const tokenList = document.getElementById('token-list');
+    tokenList.innerHTML = '';
+    const myTokens = JSON.parse(localStorage.getItem('myTokens')) || [];
+
+    myTokens.forEach(token => {
+        const tokenCard = document.createElement('div');
+        tokenCard.className = 'token-card';
+        tokenCard.innerHTML = `
+            <h3>${token.name} (${token.symbol})</h3>
+            <p>Адрес: ${token.address}</p>
+            ${token.icon ? `<img src="${token.icon}" alt="${token.name} icon" style="width: 50px; height: 50px;">` : ''}
+        `;
+        tokenList.appendChild(tokenCard);
+    });
+}
+
+function updateTokenPreview() {
+    const name = document.getElementById('token-name').value;
+    const symbol = document.getElementById('token-symbol').value;
+    const iconUrl = document.getElementById('token-icon').value;
+
+    const previewContent = document.querySelector('.preview-content');
+    previewContent.innerHTML = `
+        ${iconUrl ? `<img src="${iconUrl}" alt="Token Icon">` : ''}
+        <div>
+            <h4>${name || 'Название токена'}</h4>
+            <p>${symbol || 'СИМВОЛ'}</p>
+        </div>
+    `;
+}
+
+// Закрытие модального окна при клике вне его содержимого
+window.onclick = function(event) {
+    const modal = document.getElementById('wallet-modal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
