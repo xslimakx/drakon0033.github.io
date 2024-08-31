@@ -4,8 +4,8 @@ const servers = [
         shortDescription: "⌠SL⌡World of Dream🌠, Ванилла+",
         fullDescription: "🌆〡От части ванильный майнкрафт, но время от времени будут добавляться различные плагины которые вы можете использовать под свой стиль игры(РП или будь что другое)",
         joinLink: "https://discord.gg/Y7rCYhHpth",
-        imageUrl: "https://i.imgur.com/DrzXdBX.png",
-        iconUrl: "https://cdn.discordapp.com/attachments/1259052471909617756/1272197191942934588/838587266740912178.png"
+        imageUrl: "https://media.discordapp.net/attachments/1272589209705779200/1275844095025348678/banerslwod.png?ex=66c75de8&is=66c60c68&hm=a2f086d893050706742c2ff31bc91c97e859be2ff12082d588a0ee222a22594e&=&format=webp&quality=lossless",
+        iconUrl: "https://media.discordapp.net/attachments/1272589209705779200/1275843931178799155/838587266740912178.png?ex=66c75dc1&is=66c60c41&hm=484339e5e0a9d0735fdbabd5ec9319097f2ffbe2d31bd56e8476c1e79c9a275e&=&format=webp&quality=lossless"
     },
     
 ];

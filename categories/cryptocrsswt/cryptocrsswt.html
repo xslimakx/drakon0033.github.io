@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptocrSSWT - Создание токена Solana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="cryptocrsswt.css">
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CryptocrSSWT - Solana Token Creator</h1>
+        </header>
+        <main>
+            <div id="wallet-buttons">
+                <button id="connect-phantom">Подключить Phantom</button>
+                <button id="connect-solflare">Подключить Solflare</button>
+                <button id="connect-okx">Подключить OKX</button>
+            </div>
+            <div id="connected-wallet"></div>
+            <form id="token-creation-form" style="display: none;">
+                <h2>Создание токена Solana</h2>
+                
+                <label for="token-name">Название токена:</label>
+                <input type="text" id="token-name" required>
+
+                <label for="token-symbol">Символ токена:</label>
+                <input type="text" id="token-symbol" required>
+
+                <label for="total-supply">Общее количество токенов:</label>
+                <input type="number" id="total-supply" required>
+
+                <label for="token-icon">Иконка токена (URL):</label>
+                <input type="url" id="token-icon">
+
+                <div>
+                    <input type="checkbox" id="revoke-mint-authority">
+                    <label for="revoke-mint-authority">Отказаться от Mint Authority</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="revoke-freeze-authority">
+                    <label for="revoke-freeze-authority">Отказаться от Freeze Authority</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="revoke-metadata-authority">
+                    <label for="revoke-metadata-authority">Отказаться от права изменять метаданные</label>
+                </div>
+
+                <button type="submit">Создать токен</button>
+            </form>
+            <div id="result"></div>
+        </main>
+    </div>
+    <script src="cryptocrsswt.js"></script>
+</body>
+</html>

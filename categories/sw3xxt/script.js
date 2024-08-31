@@ -4,8 +4,8 @@ const servers = [
         shortDescription: "Сервачок для общения и веселья! 🎉",
         fullDescription: "Тут пенисы не показывать!!! Зато можно показывать смешные мемы и котиков! 😺",
         joinLink: "https://discord.gg/jmvmY3B5ez",
-        imageUrl: "https://cdn.discordapp.com/attachments/1150879903860924546/1157118559986655325/image0.jpg?ex=66bb57e2&is=66ba0662&hm=cc1c1f9380d5fee5183ea7b20a80cc02832ef4d80583e60f07177fb4801abf28&",
-        iconUrl: "https://media.discordapp.net/attachments/765647977032712224/824007482028458004/hapee.gif?ex=66bb1085&is=66b9bf05&hm=99ebd95565cb9c82b264eb8d6ba140d32204497c1c1163d4279e3b539df52192&="
+        imageUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&=",
+        iconUrl: "https://media.discordapp.net/attachments/655766154916397089/1079719740991357028/kotyaka_blekmyaka.gif?ex=66c71a5e&is=66c5c8de&hm=7cd21e9e88f2f280ad3765ccad70d7695d34059088a922786b1bdc4478cbc052&="
     },
 ];
 
