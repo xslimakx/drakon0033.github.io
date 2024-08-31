@@ -33,19 +33,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             e.preventDefault();
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
-            const target = link.textContent;
-            if (target === 'Главная') {
-                welcomeSection.style.display = 'block';
-                createTokenSection.style.display = 'none';
-                myTokensSection.style.display = 'none';
-            } else if (target === 'Создать токен') {
-                welcomeSection.style.display = 'none';
-                createTokenSection.style.display = 'block';
-                myTokensSection.style.display = 'none';
-            } else if (target === 'Мои токены') {
-                welcomeSection.style.display = 'none';
-                createTokenSection.style.display = 'none';
-                myTokensSection.style.display = 'block';
+            const target = link.getAttribute('data-target');
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(target).style.display = 'block';
+            if (target === 'my-tokens') {
                 displayMyTokens();
             }
         });
@@ -63,12 +56,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         const totalSupply = document.getElementById('total-supply').value;
         const tokenIcon = document.getElementById('token-icon').value;
         const metadataUri = document.getElementById('metadata-uri').value;
+        const creatorName = document.getElementById('creator-name').value;
         const revokeMintAuthority = document.getElementById('revoke-mint-authority').checked;
         const revokeFreezeAuthority = document.getElementById('revoke-freeze-authority').checked;
         const revokeMetadataAuthority = document.getElementById('revoke-metadata-authority').checked;
 
         try {
-            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, metadataUri, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority);
+            const result = await createSolanaToken(tokenName, tokenSymbol, totalSupply, tokenIcon, metadataUri, creatorName, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority);
             alert(`Токен успешно создан! Адрес токена: ${result}`);
             form.reset();
             displayMyTokens();
@@ -81,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('token-name').addEventListener('input', updateTokenPreview);
     document.getElementById('token-symbol').addEventListener('input', updateTokenPreview);
     document.getElementById('token-icon').addEventListener('input', updateTokenPreview);
+    document.getElementById('creator-name').addEventListener('input', updateTokenPreview);
 });
 
 function showWalletModal() {
@@ -125,7 +120,7 @@ async function connectWallet(walletType) {
     }
 }
 
-async function createSolanaToken(name, symbol, totalSupply, iconUrl, metadataUri, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority) {
+async function createSolanaToken(name, symbol, totalSupply, iconUrl, metadataUri, creatorName, revokeMintAuthority, revokeFreezeAuthority, revokeMetadataAuthority) {
     if (!wallet) {
         throw new Error('Кошелек не подключен');
     }
@@ -198,7 +193,7 @@ async function createSolanaToken(name, symbol, totalSupply, iconUrl, metadataUri
             symbol, 
             address: mintAccount.publicKey.toString(), 
             icon: iconUrl,
-            creator: 's3xcommunity'
+            creator: creatorName
         };
         let myTokens = JSON.parse(localStorage.getItem('myTokens')) || [];
         myTokens.push(tokenInfo);
@@ -233,6 +228,7 @@ function updateTokenPreview() {
     const name = document.getElementById('token-name').value;
     const symbol = document.getElementById('token-symbol').value;
     const iconUrl = document.getElementById('token-icon').value;
+    const creatorName = document.getElementById('creator-name').value;
 
     const previewContent = document.querySelector('.preview-content');
     previewContent.innerHTML = `
@@ -240,7 +236,7 @@ function updateTokenPreview() {
         <div>
             <h4>${name || 'Название токена'}</h4>
             <p>${symbol || 'СИМВОЛ'}</p>
-            <p>Создатель: s3xcommunity</p>
+            <p>Создатель: ${creatorName || 'Не указан'}</p>
         </div>
     `;
 }
