@@ -1,0 +1,14 @@
+name: SLDSMART
+version: '1.0-SNAPSHOT'
+main: org.slmarket.sLDSMART.SLDSMART
+api-version: '1.20'
+commands:
+  linkdiscord:
+    description: Link your Discord account to your Minecraft account
+    usage: /<command>
+  marketplace:
+    description: Open the marketplace
+    usage: /<command>
+  marketplaceadmin:
+    description: Admin commands for the marketplace
+    usage: /<command> [add <price> | reloadmongo]

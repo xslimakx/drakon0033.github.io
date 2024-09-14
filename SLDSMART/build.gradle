@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'org.slmarket'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    implementation 'net.dv8tion:JDA:5.0.0-beta.9'
+    implementation 'org.mongodb:mongodb-driver-sync:4.9.0'
+}
+
+shadowJar {
+    archiveBaseName.set('SLDSMART')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}

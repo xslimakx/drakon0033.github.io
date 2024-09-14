@@ -1,0 +1,49 @@
+# General messages
+general:
+  player_only: "This command can only be used by players."
+  no_permission: "You don't have permission to use this command."
+
+# Marketplace messages
+marketplace:
+  invalid_command: "Invalid command. Usage: /marketplace [sell <price> <duration> | buy <itemId>]"
+  specify_price_and_duration: "Please specify a price and duration for the item."
+  hold_item: "You must be holding an item to sell."
+  item_added_success: "Your item has been successfully added to the marketplace."
+  item_added_to_market: "Your item has been added to the marketplace."
+  invalid_price_or_duration: "Invalid price or duration. Please enter valid positive numbers."
+  specify_item_id: "Please specify the item ID to buy."
+  invalid_item_id: "Invalid item ID. Please enter a valid UUID."
+  item_not_available: "This item is no longer available."
+  not_enough_money: "You don't have enough money to buy this item."
+  purchase_successful: "You have successfully purchased the item for %price%."
+  item_sold: "Your item has been sold for %price%."
+  item_removed_returned: "Your item has been removed from the marketplace and returned to your inventory."
+
+# Admin messages
+admin:
+  marketplace_title: "Admin Marketplace"
+  click_to_remove: "Click to remove from market"
+  add_item: "Add Item"
+  item_removed_returned: "The item has been removed from the marketplace and returned to the seller's inventory."
+  specify_price: "Please specify a price for the item."
+  hold_item: "You must be holding an item to add to the market."
+  item_added_to_market: "Item has been added to the market."
+  invalid_price: "Invalid price. Please enter a valid number."
+  invalid_command: "Invalid command. Usage: /marketplaceadmin [add <price> <duration> | remove <itemId> | reloadmongo]"
+  specify_price_and_duration: "Please specify a price and duration for the item."
+  item_not_found: "Item not found in the marketplace."
+  item_removed_from_market: "Item has been removed from the marketplace."
+
+# Discord link messages
+discord-link:
+  instructions: "To link your Discord account, use this code in our Discord server: %code%"
+  success: "Your Discord account has been successfully linked to your Minecraft account!"
+  failure: "Failed to link your Discord account. Please make sure you're using the correct link code."
+  invalid-format: "Invalid command format. Please use '!link <code>' to link your account."
+  already-linked: "Your account is already linked to a Discord account."
+  code-sent: "A link code has been generated for you."
+  link-instructions: "Please use the following command in our Discord server: !link %code%"
+
+# Other messages
+pending_items_returned: "Your pending items have been returned to your inventory."
+discord_not_linked: "You need to link your Discord account to perform this action."

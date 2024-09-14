@@ -1,0 +1,21 @@
+name: SLDSMART
+version: '1.0'
+main: org.slmarket.sLDSMART.SLDSMART
+api-version: '1.19'
+authors: [YourName]
+description: A smart marketplace plugin with Discord integration
+commands:
+  marketplace:
+    description: Open the marketplace or sell an item
+    usage: /<command> [sell]
+  marketplaceadmin:
+    description: Admin commands for the marketplace
+    usage: /<command> [add <price>]
+    permission: sldsmart.admin
+  linkdiscord:
+    description: Link your Minecraft account to Discord
+    usage: /<command>
+permissions:
+  sldsmart.admin:
+    description: Allows access to admin commands
+    default: op
